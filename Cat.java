@@ -1,5 +1,5 @@
 /**
- * A cat with a name, an owner, and a colour.
+ * A cat with a name, an owner, and a colour. test if working
  */
 public class Cat extends Pet 
 {
