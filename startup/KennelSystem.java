@@ -2,7 +2,8 @@ package startup;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import systemEntities;
+import systemEntities.*;
+import containers.KennelAccess;
 
 /** 
  * The class to run the driver for the kennel system.  It issues a menu for the user
@@ -10,20 +11,21 @@ import systemEntities;
 public class KennelSystem 
 { 
 	/** The kennel for the system.*/
-	private Kennel kennel;
+	public static Kennel kennel;
 
 	/** The scanner used to read input from the user.  */
-	private Scanner consoleIn;
+	public static Scanner consoleIn;
 
 	/**
 	 * Initialize the system by creating the kennel object.
 	 */
-	public void initialize()
+	public static void initialize()
 	{
 		consoleIn = new Scanner(System.in);
 		System.out.print("Enter the size for the kennel: ");
 		int size = readInt();
-		kennel = new Kennel(size);
+		KennelAccess.Size = size;
+		kennel = KennelAccess.Kennel();
 	}
 
 	/**
@@ -41,19 +43,19 @@ public class KennelSystem
 				switch (opId)
 				{
 				case 1:
-					addOwner();
+					commands.AddOwnerCommand.addOwner();
 					break;
 				case 2:
-					addDog();
+					commands.AddDogCommand.addDog();
 					break;
 				case 3:
 					addCat();
 					break;
 				case 4:
-					displayPens();
+					commands.DisplayOccupantCommand.displayPens(); 
 					break;
 				case 5:
-					assignPen();
+					commands.AssignPetToPenCommand.assignPen(); 
 					break;
 				case 6:
 					dischargePet();
@@ -101,7 +103,7 @@ public class KennelSystem
 	 * Read in an int value.  If a non-int value is entered, then issue another request.  
 	 * @return the int value read in
 	 */
-	public int readInt()
+	public static int readInt() 
 	{
 		int result = 0;    // must be initialized
 		boolean successful ;
@@ -125,57 +127,6 @@ public class KennelSystem
 		return result;
 	}
 
-	
-	/**
-	 * Read the information for a new owner and then add the owner
-	 * to the dictionary of all owners for the kennel.
-	 */
-	public void addOwner()
-	{
-		System.out.print("Enter the name of the owner: ");
-		String name = consoleIn.nextLine();
-		if (kennel.hasOwner(name))
-		{
-			throw new RuntimeException("Trying to add a new owner when the name '" + name
-				       + "' is already in the system.  New owner not added.");
-		}
-		else
-		{
-			System.out.print("Enter the address of the owner: ");
-			String address = consoleIn.nextLine();
-			PetOwner owner = new PetOwner(name, address);
-			kennel.addOwner(owner);
-		}
-	}
-
-	/**
-	 * Read the information for a new dog and then add the dog
-	 * to the list of pets for its owner.
-	 */
-	public void addDog()
-	{
-		System.out.print("Enter the name of the owner for the dog: ");
-		String ownerName = consoleIn.nextLine();
-		if (!kennel.hasOwner(ownerName))
-			throw new RuntimeException("The name " + ownerName 
-			                           + " is not the name of an owner for the kennel.");
-		else
-		{
-			PetOwner owner = kennel.getOwner(ownerName);
-			System.out.print("Enter the name of the dog: ");
-			String name = consoleIn.nextLine();
-			if (owner.hasPet(name))
-				throw new RuntimeException("The name " + name + " is already the name" 
-			                               + " of a pet for " + ownerName + ".");
-			else
-			{
-				System.out.print("Enter the breed of the dog: ");
-				String breed = consoleIn.nextLine();
-				Dog d = new Dog(name, owner, breed);
-				owner.addPet(d);
-			}
-		}
-	}
 
 	/**
 	 * Read the information for a new cat and then add the cat
@@ -206,47 +157,6 @@ public class KennelSystem
 		}
 	}
 
-	/**
-	 * Display the pet in each of the pens of the kennel.
-	 */
-	public void displayPens()
-	{
-		System.out.print(kennel.toStringOfBasicKennel());
-	}
-
-	/**
-	 * Read the name of an owner, the name of a pet for the owner, 
-	 * and the number for pen, and then assign the pet to the pen.
-	 */
-	public void assignPen()
-	{
-		System.out.print("Enter the name of the owner: ");
-		String ownerName = consoleIn.nextLine();
-		if (!kennel.hasOwner(ownerName))
-			throw new RuntimeException("The name " + ownerName 
-			                  + " is not the name of an owner registered with the kennel.");
-		else
-		{
-			PetOwner owner = kennel.getOwner(ownerName);
-			System.out.print("Enter the name of the pet: ");
-			String petName = consoleIn.nextLine();
-			if (!owner.hasPet(petName))
-				throw new RuntimeException("The name " + petName + " is not the name" 
-			                               + " of a pet for " + ownerName + ".");
-			else
-			{
-				Pet p = owner.getPet(petName);
-				System.out.print("Enter the number for the pen of the pet: ");
-				int penNumber = readInt();
-				if (penNumber < 1 || penNumber > kennel.size())
-					throw new RuntimeException("Pen number " + penNumber + " is illegal.");
-				if (kennel.hasOccupant(penNumber))
-					throw new RuntimeException("Pen number " + penNumber + " is already "
-					                    + "occupied by " + kennel.occupantOfPen(penNumber));
-				kennel.insert(p, penNumber);
-			}
-		}
-	}
 
 	/**
 	 * Read the name of a pet, and discharge the pet from its pen.
