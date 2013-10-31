@@ -83,8 +83,8 @@ public class KennelSystem
 					break;
 				case 7:
 					System.out.println("The system is as follows: " + toString());
-					//String SystemStats = KennelAccess.Kennel().toString();
-					//userInput.outputString(SystemStats);
+					String SystemStats = toString();
+					userInput.outputString(SystemStats);
 					//TODO FIX THIS
 					break;
 				default:
