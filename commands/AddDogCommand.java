@@ -8,7 +8,7 @@ import userInterfaces.UserInterface;
 
 
 /** 
- * Command to Add a dog to the kennel //test
+ * Command to Add a dog to the kennel 
  */
 
 public class AddDogCommand extends CommandStatus
