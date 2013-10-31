@@ -3,7 +3,8 @@ package commands;
 import containers.KennelAccess;
 import systemEntities.Pet;
 import systemEntities.PetOwner;
-import startup.KennelSystem;
+import userInterfaces.InputOutputInterface;
+import userInterfaces.UserInterface;
 
 /** 
  * Command to assign a pet to the kennel
@@ -19,8 +20,8 @@ public class AssignPetToPenCommand extends CommandStatus
 	 */
 	public void assignPen()
 	{
-		System.out.print("Enter the name of the owner: ");
-		String ownerName = KennelSystem.consoleIn.nextLine();
+		InputOutputInterface userInput = UserInterface.getUI();
+		String ownerName = userInput.readString("Enter the name of the owner: ");
 		if (!KennelAccess.Kennel().hasOwner(ownerName))
 		{
 			successful = false;
@@ -32,8 +33,7 @@ public class AssignPetToPenCommand extends CommandStatus
 		else
 		{
 			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
-			System.out.print("Enter the name of the pet: ");
-			String petName = KennelSystem.consoleIn.nextLine();
+			String petName = userInput.readString("Enter the name of the pet: ");
 			if (!owner.hasPet(petName))
 			{
 				successful = false;
@@ -45,8 +45,7 @@ public class AssignPetToPenCommand extends CommandStatus
 			else
 			{
 				Pet p = owner.getPet(petName);
-				System.out.print("Enter the number for the pen of the pet: ");
-				int penNumber = KennelSystem.readInt();
+				int penNumber = userInput.readInt("Enter the number for the pen of the pet: ");
 				if (penNumber < 1 || penNumber > KennelAccess.Kennel().size())
 				{
 					successful = false;

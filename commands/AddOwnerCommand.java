@@ -2,7 +2,8 @@ package commands;
 
 import containers.KennelAccess;
 import systemEntities.PetOwner;
-import startup.KennelSystem;
+import userInterfaces.InputOutputInterface;
+import userInterfaces.UserInterface;
 
 /** 
  * Command to Add an owner to the kennel
@@ -18,8 +19,8 @@ public class AddOwnerCommand extends CommandStatus
 	 */
 	public void addOwner()
 	{
-		System.out.print("Enter the name of the owner: ");
-		String name = KennelSystem.consoleIn.nextLine();
+		InputOutputInterface userInput = UserInterface.getUI();
+		String name = userInput.readString("Enter the name of the owner: ");
 		if (KennelAccess.Kennel().hasOwner(name))
 		{
 			successful = false;
@@ -31,8 +32,7 @@ public class AddOwnerCommand extends CommandStatus
 		else
 		{
 			successful = true;
-			System.out.print("Enter the address of the owner: ");
-			String address = KennelSystem.consoleIn.nextLine();
+			String address = userInput.readString("Enter the address of the owner: ");
 			PetOwner owner = new PetOwner(name, address);
 			KennelAccess.Kennel().addOwner(owner);
 		}

@@ -1,11 +1,12 @@
 package startup;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import commands.*;
 
 import systemEntities.*;
+import userInterfaces.InputOutputInterface;
+import userInterfaces.UserInterface;
 import containers.KennelAccess;
 
 /** 
@@ -13,21 +14,19 @@ import containers.KennelAccess;
  * to select an operation, and then carries out the operation.   */
 public class KennelSystem 
 { 
-	///** The kennel for the system.*/
-	//public static Kennel kennel;
-
+	UserInterface userInterface;
+	
 	/** The scanner used to read input from the user.  */
 	public static Scanner consoleIn;
 
 	/**
 	 * Initialize the system by creating the kennel object.
 	 */
-	public static void initialize()
+	public void initialize()
 	{
+		userInterface = new UserInterface();
 		consoleIn = new Scanner(System.in);
-		System.out.print("Enter the size for the kennel: ");
-		int size = readInt();
-		KennelAccess.Size = size;
+		KennelAccess.Size = userInterface.readInt("Enter the size for the kennel:");
 		KennelAccess.Kennel();
 	}
 
@@ -91,8 +90,8 @@ public class KennelSystem
 	 */
 	public int readOpId()
 	{
-		int id;
-		System.out.print("Please select an operation to do"
+		InputOutputInterface userInput = UserInterface.getUI();
+		int id = userInput.readInt("Please select an operation to do"
 		                 + "\n0: quit"
 		                 + "\n1: add a new owner"
 		                 + "\n2: add a new dog"
@@ -102,38 +101,8 @@ public class KennelSystem
 		                 + "\n6: discharge a pet"
 		                 + "\n7: display current system state"
 		                 + "\nEnter the number of your selection: ");
-		id = readInt();
 		return id;
 	}
-
-	/**
-	 * Read in an int value.  If a non-int value is entered, then issue another request.  
-	 * @return the int value read in
-	 */
-	public static int readInt() 
-	{
-		int result = 0;    // must be initialized
-		boolean successful ;
-		do
-		{
-			successful = true;
-			try
-			{
-				result = consoleIn.nextInt();
-			} catch (InputMismatchException e)
-			{
-				successful = false;
-				String faultyInput = consoleIn.nextLine();
-				System.out.print("You entered \"" + faultyInput 
-				                 + "\" which is not an int." 
-				                 + "\nPlease try again: ");
-			}
-		}
-		while (!successful);
-		consoleIn.nextLine();  // discard the remainder of the line
-		return result;
-	}
-
 
 	/**
 	 * Read the information for a new cat and then add the cat
@@ -141,23 +110,21 @@ public class KennelSystem
 	 */
 	public void addCat()
 	{
-		System.out.print("Enter the name of the owner for the cat: ");
-		String ownerName = consoleIn.nextLine();
+		InputOutputInterface userInput = UserInterface.getUI();
+		String ownerName = userInput.readString("Enter the name of the owner for the cat: ");
 		if (!KennelAccess.Kennel().hasOwner(ownerName))
 			throw new RuntimeException("The name " + ownerName 
 			                           + " is not the name of an owner for the kennel.");
 		else
 		{
 			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
-			System.out.print("Enter the name of the cat: ");
-			String name = consoleIn.nextLine();
+			String name = userInput.readString("Enter the name of the cat: ");
 			if (owner.hasPet(name))
 				throw new RuntimeException("The name " + name + " is already the name" 
 			                               + " of a pet for " + ownerName + ".");
 			else
 			{
-				System.out.print("Enter the colour of the cat: ");
-				String colour = consoleIn.nextLine();
+				String colour = userInput.readString("Enter the colour of the cat: ");
 				Cat c = new Cat(name, owner, colour);
 				owner.addPet(c);
 			}
@@ -170,8 +137,8 @@ public class KennelSystem
 	 */
 	public void dischargePet()
 	{
-		System.out.print("Enter the name of the pet: ");
-		String petName = consoleIn.nextLine();
+		InputOutputInterface userInput = UserInterface.getUI();
+		String petName = userInput.readString("Enter the name of the pet: ");
 		if (!KennelAccess.Kennel().hasPet(petName))
 			throw new RuntimeException("The name " + petName 
 			                  + " is not the name of a pet in the kennel.");

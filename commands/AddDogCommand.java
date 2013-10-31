@@ -3,7 +3,8 @@ package commands;
 import containers.KennelAccess;
 import systemEntities.Dog;
 import systemEntities.PetOwner;
-import startup.KennelSystem;
+import userInterfaces.InputOutputInterface;
+import userInterfaces.UserInterface;
 
 
 /** 
@@ -19,8 +20,8 @@ public class AddDogCommand extends CommandStatus
 	 */
 	public void addDog()
 	{
-		System.out.print("Enter the name of the owner for the dog: ");
-		String ownerName = KennelSystem.consoleIn.nextLine();
+		InputOutputInterface userInput = UserInterface.getUI();
+		String ownerName = userInput.readString("Enter the name of the owner for the dog: ");
 		if (!KennelAccess.Kennel().hasOwner(ownerName))
 		{
 			errorMessage = "The name " + ownerName 
@@ -33,8 +34,7 @@ public class AddDogCommand extends CommandStatus
 		else
 		{
 			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
-			System.out.print("Enter the name of the dog: ");
-			String name = KennelSystem.consoleIn.nextLine();
+			String name = userInput.readString("Enter the name of the dog: ");
 			if (owner.hasPet(name))
 			{
 				errorMessage = "The name " + name + " is already the name" 
@@ -46,8 +46,7 @@ public class AddDogCommand extends CommandStatus
 			else
 			{
 				successful = true;
-				System.out.print("Enter the breed of the dog: ");
-				String breed = KennelSystem.consoleIn.nextLine();
+				String breed = userInput.readString("Enter the breed of the dog: ");
 				Dog d = new Dog(name, owner, breed);
 				owner.addPet(d);
 			}
