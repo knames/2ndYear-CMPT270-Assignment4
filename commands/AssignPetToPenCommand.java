@@ -1,5 +1,6 @@
 package commands;
 
+import containers.KennelAccess;
 import systemEntities.Pet;
 import systemEntities.PetOwner;
 import startup.KennelSystem;
@@ -16,11 +17,11 @@ public class AssignPetToPenCommand extends CommandStatus
 	 * Read the name of an owner, the name of a pet for the owner, 
 	 * and the number for pen, and then assign the pet to the pen.
 	 */
-	public static void assignPen()
+	public void assignPen()
 	{
 		System.out.print("Enter the name of the owner: ");
 		String ownerName = KennelSystem.consoleIn.nextLine();
-		if (!KennelSystem.kennel.hasOwner(ownerName))
+		if (!KennelAccess.Kennel().hasOwner(ownerName))
 		{
 			successful = false;
 			errorMessage = "The name " + ownerName 
@@ -30,7 +31,7 @@ public class AssignPetToPenCommand extends CommandStatus
 		}
 		else
 		{
-			PetOwner owner = KennelSystem.kennel.getOwner(ownerName);
+			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
 			System.out.print("Enter the name of the pet: ");
 			String petName = KennelSystem.consoleIn.nextLine();
 			if (!owner.hasPet(petName))
@@ -46,22 +47,22 @@ public class AssignPetToPenCommand extends CommandStatus
 				Pet p = owner.getPet(petName);
 				System.out.print("Enter the number for the pen of the pet: ");
 				int penNumber = KennelSystem.readInt();
-				if (penNumber < 1 || penNumber > KennelSystem.kennel.size())
+				if (penNumber < 1 || penNumber > KennelAccess.Kennel().size())
 				{
 					successful = false;
 					errorMessage = "Pen number " + penNumber + " is illegal.";
 					throw new RuntimeException("Pen number " + penNumber + " is illegal.");
 				}
-				if (KennelSystem.kennel.hasOccupant(penNumber))
+				if (KennelAccess.Kennel().hasOccupant(penNumber))
 				{
 					successful = false;
 					errorMessage = "Pen number " + penNumber + " is already "
-	                    + "occupied by " + KennelSystem.kennel.occupantOfPen(penNumber);
+	                    + "occupied by " + KennelAccess.Kennel().occupantOfPen(penNumber);
 					throw new RuntimeException("Pen number " + penNumber + " is already "
-					                    + "occupied by " + KennelSystem.kennel.occupantOfPen(penNumber));
+					                    + "occupied by " + KennelAccess.Kennel().occupantOfPen(penNumber));
 				}
 				successful = true;
-				KennelSystem.kennel.insert(p, penNumber);
+				KennelAccess.Kennel().insert(p, penNumber);
 			}
 		}
 	}

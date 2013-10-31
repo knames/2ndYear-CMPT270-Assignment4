@@ -10,13 +10,13 @@ public class CommandStatus
 	protected static boolean successful = false;
 
 	/**	If the command was not successful, an appropriate error message. */
-	protected static String errorMessage;
+	protected String errorMessage;
 
 	/**
 	 * Was the last execution of this command successful?
 	 * @return the successful status from the last execution
 	 */
-	public static boolean wasSuccessful() 
+	public boolean wasSuccessful() 
 	{
 		return successful;
 	}

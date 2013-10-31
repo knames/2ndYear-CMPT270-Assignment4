@@ -1,5 +1,6 @@
 package commands;
 
+import containers.KennelAccess;
 import systemEntities.Dog;
 import systemEntities.PetOwner;
 import startup.KennelSystem;
@@ -16,11 +17,11 @@ public class AddDogCommand extends CommandStatus
 	 * Read the information for a new dog and then add the dog
 	 * to the list of pets for its owner.
 	 */
-	public static void addDog()
+	public void addDog()
 	{
 		System.out.print("Enter the name of the owner for the dog: ");
 		String ownerName = KennelSystem.consoleIn.nextLine();
-		if (!KennelSystem.kennel.hasOwner(ownerName))
+		if (!KennelAccess.Kennel().hasOwner(ownerName))
 		{
 			errorMessage = "The name " + ownerName 
                + " is not the name of an owner for the kennel.";
@@ -31,7 +32,7 @@ public class AddDogCommand extends CommandStatus
 		}
 		else
 		{
-			PetOwner owner = KennelSystem.kennel.getOwner(ownerName);
+			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
 			System.out.print("Enter the name of the dog: ");
 			String name = KennelSystem.consoleIn.nextLine();
 			if (owner.hasPet(name))

@@ -2,6 +2,9 @@ package startup;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import commands.*;
+
 import systemEntities.*;
 import containers.KennelAccess;
 
@@ -10,8 +13,8 @@ import containers.KennelAccess;
  * to select an operation, and then carries out the operation.   */
 public class KennelSystem 
 { 
-	/** The kennel for the system.*/
-	public static Kennel kennel;
+	///** The kennel for the system.*/
+	//public static Kennel kennel;
 
 	/** The scanner used to read input from the user.  */
 	public static Scanner consoleIn;
@@ -25,7 +28,7 @@ public class KennelSystem
 		System.out.print("Enter the size for the kennel: ");
 		int size = readInt();
 		KennelAccess.Size = size;
-		kennel = KennelAccess.Kennel();
+		KennelAccess.Kennel();
 	}
 
 	/**
@@ -43,19 +46,23 @@ public class KennelSystem
 				switch (opId)
 				{
 				case 1:
-					commands.AddOwnerCommand.addOwner();
+					AddOwnerCommand addOwner = new AddOwnerCommand();
+					addOwner.addOwner();
 					break;
 				case 2:
-					commands.AddDogCommand.addDog();
+					AddDogCommand addDog = new AddDogCommand();
+					addDog.addDog();
 					break;
 				case 3:
 					addCat();
 					break;
 				case 4:
-					commands.DisplayOccupantCommand.displayPens(); 
+					DisplayOccupantCommand displayPens = new DisplayOccupantCommand();
+					displayPens.displayPens();
 					break;
 				case 5:
-					commands.AssignPetToPenCommand.assignPen(); 
+					AssignPetToPenCommand assignPen = new AssignPetToPenCommand();
+					assignPen.assignPen();
 					break;
 				case 6:
 					dischargePet();
@@ -136,12 +143,12 @@ public class KennelSystem
 	{
 		System.out.print("Enter the name of the owner for the cat: ");
 		String ownerName = consoleIn.nextLine();
-		if (!kennel.hasOwner(ownerName))
+		if (!KennelAccess.Kennel().hasOwner(ownerName))
 			throw new RuntimeException("The name " + ownerName 
 			                           + " is not the name of an owner for the kennel.");
 		else
 		{
-			PetOwner owner = kennel.getOwner(ownerName);
+			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
 			System.out.print("Enter the name of the cat: ");
 			String name = consoleIn.nextLine();
 			if (owner.hasPet(name))
@@ -165,17 +172,17 @@ public class KennelSystem
 	{
 		System.out.print("Enter the name of the pet: ");
 		String petName = consoleIn.nextLine();
-		if (!kennel.hasPet(petName))
+		if (!KennelAccess.Kennel().hasPet(petName))
 			throw new RuntimeException("The name " + petName 
 			                  + " is not the name of a pet in the kennel.");
 		else
-			kennel.remove(petName);
+			KennelAccess.Kennel().remove(petName);
 	}
 	
 	/** A string representation of the system. */
 	public String toString()
 	{
-		return kennel.toString();
+		return KennelAccess.Kennel().toString();
 	}
 
 	/** Start and run the kennel system.  */
