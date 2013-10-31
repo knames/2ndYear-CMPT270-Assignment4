@@ -1,5 +1,7 @@
 package commands;
 
+import userInterfaces.InputOutputInterface;
+import userInterfaces.UserInterface;
 import containers.KennelAccess;
 
 /** 
@@ -15,8 +17,9 @@ public class DisplayOccupantCommand extends CommandStatus
 	 */
 	public void displayPens()
 	{
+		InputOutputInterface userInput = UserInterface.getUI();
 		successful = true;
-		System.out.print(KennelAccess.Kennel().toStringOfBasicKennel());
+		userInput.outputString(KennelAccess.Kennel().toStringOfBasicKennel());
 	}
 
 

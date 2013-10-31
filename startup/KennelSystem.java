@@ -1,3 +1,11 @@
+/*TODO
+ * Fix crashes when closing dialogue boxes,
+ * fix Show System Status
+ * J unit testing
+ * UML garbage
+ * force users to enter shit or cancel???
+ * Can't use Cancel, how to fix that for ints
+*/
 package startup;
 
 import java.util.Scanner;
@@ -27,6 +35,11 @@ public class KennelSystem
 		userInterface = new UserInterface();
 		consoleIn = new Scanner(System.in);
 		KennelAccess.Size = userInterface.readInt("Enter the size for the kennel:");
+		while(KennelAccess.Size <1)
+		{
+			KennelAccess.Size = userInterface.readInt(KennelAccess.Size 
+					+ " is too small. Please enter the size (above zero) for the kennel:");
+		}
 		KennelAccess.Kennel();
 	}
 
@@ -34,8 +47,10 @@ public class KennelSystem
 	 * Run the kennel system: initialize, and then accept and carry out operations.
 	 * Output the kennel contents when finishing.
 	 */
+	@SuppressWarnings("unused")
 	public void run()
 	{
+		InputOutputInterface userInput = UserInterface.getUI();
 		initialize();
 		int opId = readOpId();
 		while (opId != 0)
@@ -68,6 +83,9 @@ public class KennelSystem
 					break;
 				case 7:
 					System.out.println("The system is as follows: " + toString());
+					//String SystemStats = KennelAccess.Kennel().toString();
+					//userInput.outputString(SystemStats);
+					//TODO FIX THIS
 					break;
 				default:
 					System.out.println("Invalid int value; try again\n");

@@ -7,34 +7,51 @@ public class BoxIO extends AbstractDialogIO
 
 	@Override
 	public String readString(String prompt) {
-		String selection = (String) JOptionPane.showInputDialog(
+		String userInput = (String) JOptionPane.showInputDialog(
             null,                            // parent component
-            "Please select an option ",      // prompt
-            "Choice Selection",              // window title
+            prompt,      							// prompt
+            "User Input",             			// window title
             JOptionPane.QUESTION_MESSAGE,    // type of message
             null,                            // icon displayed
-            options,                         // choices for the Combo box
-            options[0]);                     // initial selection
-	if (selection == null)
-		return "";  							// Cancel or X button clicked
-	for (int i = 0; i < options.length; i++)
-		if (selection.equals(options[i]))
-			return i;
-	JOptionPane.showMessageDialog(null, "Illegal choice: " + selection + "\n");
-	return readChoice(options);
-		return null;
+            null,                         // choices for the Combo box
+            null);                     // initial selection
+		//if (userInput == null || userInput.isEmpty())
+			//return readString(prompt);
+		return userInput; 
 	}
 
 	@Override
 	public int readInt(String prompt) {
-		// TODO Auto-generated method stub
-		return 0;
+		String selection = (String) JOptionPane.showInputDialog(
+            null,                            // parent component
+            prompt,     					 		// prompt
+            "User Input",              		// window title
+            JOptionPane.QUESTION_MESSAGE,    // type of message
+            null,                            // icon displayed
+            null,                         // choices for the Combo box
+            null);                     // initial selection
+		int number;
+		try
+		{
+		number = Integer.parseInt(selection);
+		}
+		catch(NumberFormatException e)
+		{
+			return readInt(prompt);
+		}
+		return number;
 	}
 
 	@Override
 	public void outputString(String outString) {
-		// TODO Auto-generated method stub
-		
+		@SuppressWarnings("unused")
+		String userInput = (String) JOptionPane.showInputDialog(
+            null,                            // parent component
+            outString,      							// prompt
+            "User Input",             			// window title
+            JOptionPane.INFORMATION_MESSAGE,    // type of message
+            null,                            // icon displayed
+            null,                         // choices for the Combo box
+            null);                     // initial selection
 	}
-	
 }

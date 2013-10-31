@@ -27,8 +27,6 @@ public class AddDogCommand extends CommandStatus
 			errorMessage = "The name " + ownerName 
                + " is not the name of an owner for the kennel.";
 			successful = false;
-			throw new RuntimeException("The name " + ownerName 
-			                           + " is not the name of an owner for the kennel.");
 
 		}
 		else
@@ -43,14 +41,29 @@ public class AddDogCommand extends CommandStatus
 				System.out.println("The name " + name + " is already the name" 
 			                               + " of a pet for " + ownerName + ".");
 			}
+			else if(name == null || name.isEmpty())
+			{
+				successful = false;
+				errorMessage = "Null or empty name. New owner not added.";
+			}
 			else
 			{
 				successful = true;
 				String breed = userInput.readString("Enter the breed of the dog: ");
-				Dog d = new Dog(name, owner, breed);
-				owner.addPet(d);
+				if(breed == null || breed.isEmpty())
+				{
+					successful = false;
+					errorMessage = "Null or empty breed. New owner not added.";
+				}
+				else
+				{
+					Dog d = new Dog(name, owner, breed);
+					owner.addPet(d);
+				}
 			}
 		}
+		if (successful == false)
+			userInput.outputString(errorMessage);
 	}
 
 }

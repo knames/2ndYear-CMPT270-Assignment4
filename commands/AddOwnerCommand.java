@@ -29,13 +29,29 @@ public class AddOwnerCommand extends CommandStatus
 			System.out.println("Trying to add a new owner when the name '" + name
 				       + "' is already in the system.  New owner not added.");
 		}
+		else if(name == null || name.isEmpty())
+		{
+			successful = false;
+			errorMessage = "Null or empty name. New owner not added.";
+		}
 		else
 		{
 			successful = true;
 			String address = userInput.readString("Enter the address of the owner: ");
-			PetOwner owner = new PetOwner(name, address);
-			KennelAccess.Kennel().addOwner(owner);
+			if (address == null || address.isEmpty())
+			{
+				successful = false;
+				errorMessage = "Null or empty address. New owner not added";
+			}
+			else
+			{
+				PetOwner owner = new PetOwner(name, address);
+				KennelAccess.Kennel().addOwner(owner);
+			}
 		}
+		
+		if (successful == false)
+			userInput.outputString(errorMessage);
 	}
 
 

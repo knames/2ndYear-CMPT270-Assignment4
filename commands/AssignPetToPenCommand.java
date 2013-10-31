@@ -27,8 +27,6 @@ public class AssignPetToPenCommand extends CommandStatus
 			successful = false;
 			errorMessage = "The name " + ownerName 
                + " is not the name of an owner registered with the kennel.";
-			throw new RuntimeException("The name " + ownerName 
-			                  + " is not the name of an owner registered with the kennel.");
 		}
 		else
 		{
@@ -39,8 +37,6 @@ public class AssignPetToPenCommand extends CommandStatus
 				successful = false;
 				errorMessage = "The name " + petName + " is not the name" 
                   + " of a pet for " + ownerName + ".";
-				throw new RuntimeException("The name " + petName + " is not the name" 
-			                               + " of a pet for " + ownerName + ".");
 			}
 			else
 			{
@@ -50,20 +46,22 @@ public class AssignPetToPenCommand extends CommandStatus
 				{
 					successful = false;
 					errorMessage = "Pen number " + penNumber + " is illegal.";
-					throw new RuntimeException("Pen number " + penNumber + " is illegal.");
 				}
-				if (KennelAccess.Kennel().hasOccupant(penNumber))
+				else if (KennelAccess.Kennel().hasOccupant(penNumber))
 				{
 					successful = false;
 					errorMessage = "Pen number " + penNumber + " is already "
 	                    + "occupied by " + KennelAccess.Kennel().occupantOfPen(penNumber);
-					throw new RuntimeException("Pen number " + penNumber + " is already "
-					                    + "occupied by " + KennelAccess.Kennel().occupantOfPen(penNumber));
 				}
-				successful = true;
-				KennelAccess.Kennel().insert(p, penNumber);
+				else
+				{
+					successful = true;
+					KennelAccess.Kennel().insert(p, penNumber);
+				}
 			}
 		}
+		if (successful == false)
+			userInput.outputString(errorMessage);
 	}
 
 
