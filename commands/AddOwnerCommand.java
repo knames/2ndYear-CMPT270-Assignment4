@@ -54,6 +54,7 @@ public class AddOwnerCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 	
+	/** For JUnit testing*/
 	public void testAddOwner(String name, String address)
 	{
 		PetOwner owner = new PetOwner(name, address);

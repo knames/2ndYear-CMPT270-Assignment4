@@ -66,7 +66,7 @@ public class AddDogCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 
-	
+	/** For JUnit testing*/
 	public void testAddDog(String name, PetOwner owner, String breed)
 	{
 		Dog d = new Dog(name, owner, breed);

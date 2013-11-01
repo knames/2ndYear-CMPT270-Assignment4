@@ -16,6 +16,7 @@ public class DisplayStateCommand extends CommandStatus
 		userInput.outputString(KennelAccess.Kennel().toString());
 	}
 	
+	/** For JUnit testing*/
 	public String testDisplayState()
 	{
 		String display = KennelAccess.Kennel().toString();

@@ -58,4 +58,16 @@ public class BoxIO extends AbstractDialogIO
 	{
 		JOptionPane.showMessageDialog(null, outString);
 	}
+	
+	/** Test Method */
+	public static void main(String[] args) 
+	{
+		BoxIO userInput;
+		userInput = new BoxIO();
+		String testString = userInput.readString("Enter a String ");
+		int testInt = userInput.readInt("Enter an integer");
+		userInput.outputString("This is from the output String." 
+				+ "\n The String you entered was: " + testString 
+				+ "\n The integer you entered was: " + testInt);
+	}
 }

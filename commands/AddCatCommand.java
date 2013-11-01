@@ -63,6 +63,7 @@ public class AddCatCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 	
+	/** For JUnit testing*/
 	public void testAddCat(String name, PetOwner owner, String colour)
 	{
 		Cat d = new Cat(name, owner, colour);

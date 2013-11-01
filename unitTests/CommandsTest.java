@@ -1,12 +1,13 @@
 package unitTests;
 
 import org.junit.*;
-
 import systemEntities.*;
+import userInterfaces.BoxIO;
+import userInterfaces.ConsoleIO;
 import commands.*;
 import containers.KennelAccess;
-//import entities.*;
 
+/** Contains the JUnit tests*/
 public class CommandsTest
 {
 	
@@ -121,6 +122,18 @@ public class CommandsTest
 		Pet.main(null);
 		Dog.main(null);
 		Cat.main(null);
+	}
+	
+	/** Test Console and Box IO */
+	@Test
+	public void testIO()
+	{
+		boolean onoff = true; //set this to false to disable this test
+		if (onoff)
+		{
+			ConsoleIO.main(null);
+			BoxIO.main(null);
+		}
 	}
 	
 	

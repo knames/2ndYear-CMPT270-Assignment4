@@ -70,6 +70,7 @@ public class AssignPetToPenCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 	
+	/** For JUnit testing*/
 	public void testAssignPetToPen(Pet p, int penNumber)
 	{
 		KennelAccess.Kennel().insert(p, penNumber);

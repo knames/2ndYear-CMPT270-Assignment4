@@ -38,6 +38,7 @@ public class DischargePetCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 	
+	/** For JUnit testing*/
 	public void testDischargePet(String name)
 	{
 		KennelAccess.Kennel().remove(name);
