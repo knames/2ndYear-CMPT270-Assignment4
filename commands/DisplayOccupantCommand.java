@@ -22,5 +22,10 @@ public class DisplayOccupantCommand extends CommandStatus
 		userInput.outputString(KennelAccess.Kennel().toStringOfBasicKennel());
 	}
 
+	public String testDisplayPens()
+	{
+		String display = KennelAccess.Kennel().toStringOfBasicKennel();
+		return display;
+	}
 
 }

@@ -66,4 +66,12 @@ public class AddDogCommand extends CommandStatus
 			userInput.outputString(errorMessage);
 	}
 
+	
+	public void testAddDog(String name, PetOwner owner, String breed)
+	{
+		Dog d = new Dog(name, owner, breed);
+		owner.addPet(d);
+		if (owner.hasPet(name))
+				successful = true;
+	}
 }

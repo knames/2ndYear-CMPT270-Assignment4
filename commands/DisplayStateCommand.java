@@ -15,4 +15,10 @@ public class DisplayStateCommand extends CommandStatus
 		InputOutputInterface userInput = UserInterface.getUI();
 		userInput.outputString(KennelAccess.Kennel().toString());
 	}
+	
+	public String testDisplayState()
+	{
+		String display = KennelAccess.Kennel().toString();
+		return display;
+	}
 }

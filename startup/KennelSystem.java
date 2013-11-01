@@ -5,8 +5,6 @@
  */
 package startup;
 
-import java.util.Scanner;
-
 import commands.*;
 
 import userInterfaces.InputOutputInterface;
@@ -20,8 +18,6 @@ public class KennelSystem
 { 
 	private UserInterface userInterface;
 	
-	/** The scanner used to read input from the user.  */
-	public static Scanner consoleIn;
 
 	/**
 	 * Initialize the system by creating the kennel object.
@@ -29,7 +25,6 @@ public class KennelSystem
 	public void initialize()
 	{
 		userInterface = new UserInterface();
-		consoleIn = new Scanner(System.in);
 		KennelAccess.Size = userInterface.readInt("Enter the size for the kennel:");
 		while(KennelAccess.Size <1)
 		{

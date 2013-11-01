@@ -53,6 +53,14 @@ public class AddOwnerCommand extends CommandStatus
 		if (successful == false)
 			userInput.outputString(errorMessage);
 	}
+	
+	public void testAddOwner(String name, String address)
+	{
+		PetOwner owner = new PetOwner(name, address);
+		KennelAccess.Kennel().addOwner(owner);
+		if (KennelAccess.Kennel().hasOwner(name))
+			successful = true;
+	}
 
 
 }

@@ -62,4 +62,12 @@ public class AddCatCommand extends CommandStatus
 		if (successful == false)
 			userInput.outputString(errorMessage);
 	}
+	
+	public void testAddCat(String name, PetOwner owner, String colour)
+	{
+		Cat d = new Cat(name, owner, colour);
+		owner.addPet(d);
+		if (owner.hasPet(name))
+			successful = true;
+	}
 }

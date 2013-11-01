@@ -69,7 +69,13 @@ public class AssignPetToPenCommand extends CommandStatus
 		if (successful == false)
 			userInput.outputString(errorMessage);
 	}
-
+	
+	public void testAssignPetToPen(Pet p, int penNumber)
+	{
+		KennelAccess.Kennel().insert(p, penNumber);
+		if (KennelAccess.Kennel().occupantOfPen(penNumber).equals(p.getName()))
+			successful = true;
+	}
 
 
 }

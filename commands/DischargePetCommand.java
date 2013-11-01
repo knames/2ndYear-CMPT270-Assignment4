@@ -37,4 +37,11 @@ public class DischargePetCommand extends CommandStatus
 		if (successful == false)
 			userInput.outputString(errorMessage);
 	}
+	
+	public void testDischargePet(String name)
+	{
+		KennelAccess.Kennel().remove(name);
+		if (!KennelAccess.Kennel().hasPet(name))
+			successful = true;
+	}
 }
