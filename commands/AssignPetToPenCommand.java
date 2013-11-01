@@ -42,10 +42,15 @@ public class AssignPetToPenCommand extends CommandStatus
 			{
 				Pet p = owner.getPet(petName);
 				int penNumber = userInput.readInt("Enter the number for the pen of the pet: ");
-				if (penNumber < 1 || penNumber > KennelAccess.Kennel().size())
+				if (penNumber < 0 || penNumber > KennelAccess.Kennel().size())
 				{
 					successful = false;
 					errorMessage = "Pen number " + penNumber + " is illegal.";
+				}
+				else if (penNumber == 0)
+				{
+					successful = false;
+					errorMessage = "Cancelled operation.";
 				}
 				else if (KennelAccess.Kennel().hasOccupant(penNumber))
 				{
@@ -57,6 +62,7 @@ public class AssignPetToPenCommand extends CommandStatus
 				{
 					successful = true;
 					KennelAccess.Kennel().insert(p, penNumber);
+					userInput.outputString(petName + " has been added.");
 				}
 			}
 		}

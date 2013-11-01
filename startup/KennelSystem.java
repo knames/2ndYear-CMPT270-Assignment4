@@ -1,18 +1,14 @@
 /*TODO
- * Fix crashes when closing dialogue boxes,
- * fix Show System Status
  * J unit testing
  * UML garbage
- * force users to enter shit or cancel???
  * Can't use Cancel, how to fix that for ints
-*/
+ */
 package startup;
 
 import java.util.Scanner;
 
 import commands.*;
 
-import systemEntities.*;
 import userInterfaces.InputOutputInterface;
 import userInterfaces.UserInterface;
 import containers.KennelAccess;
@@ -22,7 +18,7 @@ import containers.KennelAccess;
  * to select an operation, and then carries out the operation.   */
 public class KennelSystem 
 { 
-	UserInterface userInterface;
+	private UserInterface userInterface;
 	
 	/** The scanner used to read input from the user.  */
 	public static Scanner consoleIn;
@@ -37,8 +33,8 @@ public class KennelSystem
 		KennelAccess.Size = userInterface.readInt("Enter the size for the kennel:");
 		while(KennelAccess.Size <1)
 		{
-			KennelAccess.Size = userInterface.readInt(KennelAccess.Size 
-					+ " is too small. Please enter the size (above zero) for the kennel:");
+			userInterface.outputString("Please enter a valid size above zero.");
+			KennelAccess.Size = userInterface.readInt("Enter the size for the kennel:");
 		}
 		KennelAccess.Kennel();
 	}
@@ -47,7 +43,6 @@ public class KennelSystem
 	 * Run the kennel system: initialize, and then accept and carry out operations.
 	 * Output the kennel contents when finishing.
 	 */
-	@SuppressWarnings("unused")
 	public void run()
 	{
 		InputOutputInterface userInput = UserInterface.getUI();
@@ -68,7 +63,8 @@ public class KennelSystem
 					addDog.addDog();
 					break;
 				case 3:
-					addCat();
+					AddCatCommand addCat = new AddCatCommand();
+					addCat.addCat();
 					break;
 				case 4:
 					DisplayOccupantCommand displayPens = new DisplayOccupantCommand();
@@ -79,16 +75,15 @@ public class KennelSystem
 					assignPen.assignPen();
 					break;
 				case 6:
-					dischargePet();
+					DischargePetCommand dischargePet = new DischargePetCommand();
+					dischargePet.dischargePet();
 					break;
 				case 7:
-					System.out.println("The system is as follows: " + toString());
-					String SystemStats = toString();
-					userInput.outputString(SystemStats);
-					//TODO FIX THIS
+					DisplayStateCommand displayAll = new DisplayStateCommand();
+					displayAll.displayAll();
 					break;
 				default:
-					System.out.println("Invalid int value; try again\n");
+					userInput.outputString("Invalid int value; try again\n");
 				}
 			} catch (RuntimeException e)
 			{
@@ -97,8 +92,8 @@ public class KennelSystem
 			
 			opId = readOpId();
 		}
-		
-		System.out.println("The system at shutdown is as follows: " + toString());
+		DisplayStateCommand displayAll = new DisplayStateCommand();
+		displayAll.displayAll();
 	}
 
 	/**
@@ -120,54 +115,6 @@ public class KennelSystem
 		                 + "\n7: display current system state"
 		                 + "\nEnter the number of your selection: ");
 		return id;
-	}
-
-	/**
-	 * Read the information for a new cat and then add the cat
-	 * to the list of pets for its owner.
-	 */
-	public void addCat()
-	{
-		InputOutputInterface userInput = UserInterface.getUI();
-		String ownerName = userInput.readString("Enter the name of the owner for the cat: ");
-		if (!KennelAccess.Kennel().hasOwner(ownerName))
-			throw new RuntimeException("The name " + ownerName 
-			                           + " is not the name of an owner for the kennel.");
-		else
-		{
-			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
-			String name = userInput.readString("Enter the name of the cat: ");
-			if (owner.hasPet(name))
-				throw new RuntimeException("The name " + name + " is already the name" 
-			                               + " of a pet for " + ownerName + ".");
-			else
-			{
-				String colour = userInput.readString("Enter the colour of the cat: ");
-				Cat c = new Cat(name, owner, colour);
-				owner.addPet(c);
-			}
-		}
-	}
-
-
-	/**
-	 * Read the name of a pet, and discharge the pet from its pen.
-	 */
-	public void dischargePet()
-	{
-		InputOutputInterface userInput = UserInterface.getUI();
-		String petName = userInput.readString("Enter the name of the pet: ");
-		if (!KennelAccess.Kennel().hasPet(petName))
-			throw new RuntimeException("The name " + petName 
-			                  + " is not the name of a pet in the kennel.");
-		else
-			KennelAccess.Kennel().remove(petName);
-	}
-	
-	/** A string representation of the system. */
-	public String toString()
-	{
-		return KennelAccess.Kennel().toString();
 	}
 
 	/** Start and run the kennel system.  */

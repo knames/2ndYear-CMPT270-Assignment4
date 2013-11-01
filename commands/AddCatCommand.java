@@ -1,45 +1,42 @@
 package commands;
 
 import containers.KennelAccess;
-import systemEntities.Dog;
+import systemEntities.Cat;
 import systemEntities.PetOwner;
 import userInterfaces.InputOutputInterface;
 import userInterfaces.UserInterface;
 
 
 /** 
- * Command to Add a dog to the kennel 
+ * Command to Add a cat to the kennel 
  */
-
-public class AddDogCommand extends CommandStatus
+public class AddCatCommand extends CommandStatus
 {
- 
 	/**
-	 * Read the information for a new dog and then add the dog
+	 * Read the information for a new cat and then add the cat
 	 * to the list of pets for its owner.
 	 */
-	public void addDog()
+	public void addCat()
 	{
 		InputOutputInterface userInput = UserInterface.getUI();
-		String ownerName = userInput.readString("Enter the name of the owner for the dog: ");
+		String ownerName = userInput.readString("Enter the name of the owner for the cat: ");
 		if (!KennelAccess.Kennel().hasOwner(ownerName))
 		{
 			errorMessage = "The name " + ownerName 
-               + " is not the name of an owner for the kennel.";
+            + " is not the name of an owner for the kennel.";
 			successful = false;
-
 		}
 		else
 		{
 			PetOwner owner = KennelAccess.Kennel().getOwner(ownerName);
-			String name = userInput.readString("Enter the name of the dog: ");
+			String name = userInput.readString("Enter the name of the cat: ");
 			if (owner.hasPet(name))
 			{
 				errorMessage = "The name " + name + " is already the name" 
-			                               + " of a pet for " + ownerName + ".";
+                        + " of a pet for " + ownerName + ".";
 				successful = false;
 				System.out.println("The name " + name + " is already the name" 
-			                               + " of a pet for " + ownerName + ".");
+				                        + " of a pet for " + ownerName + ".");
 			}
 			else if(name == null || name.isEmpty())
 			{
@@ -49,15 +46,15 @@ public class AddDogCommand extends CommandStatus
 			else
 			{
 				successful = true;
-				String breed = userInput.readString("Enter the breed of the dog: ");
-				if(breed == null || breed.isEmpty())
+				String colour = userInput.readString("Enter the colour of the cat: ");
+				if(colour == null || colour.isEmpty())
 				{
 					successful = false;
-					errorMessage = "Null or empty breed. New dog not added.";
+					errorMessage = "Null or empty colour. New cat not added.";
 				}
 				else
 				{
-					Dog d = new Dog(name, owner, breed);
+					Cat d = new Cat(name, owner, colour);
 					owner.addPet(d);
 				}
 			}
@@ -65,5 +62,4 @@ public class AddDogCommand extends CommandStatus
 		if (successful == false)
 			userInput.outputString(errorMessage);
 	}
-
 }

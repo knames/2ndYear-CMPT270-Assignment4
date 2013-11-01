@@ -1,11 +1,14 @@
 package userInterfaces;
 
 import javax.swing.JOptionPane;
-
+/** A class that extends AbstractDialogIO, used to 
+ * control the input/output with dialogue boxes*/
 public class BoxIO extends AbstractDialogIO
 {
 
-	@Override
+	/** Reads a string to a diaogue box
+	 * @param prompt  is the message to the user
+	 * @return userInput the string input from the user*/
 	public String readString(String prompt) 
 	{
 		String userInput = (String) JOptionPane.showInputDialog(
@@ -19,9 +22,12 @@ public class BoxIO extends AbstractDialogIO
 		return userInput; 
 	}
 
-	@Override
+	/** Reads an int to a dialogue box
+	 * @param prompt  is the message to the user
+	 * @return userInput  int input from the user*/
 	public int readInt(String prompt) 
 	{
+		int number = 0;
 		String selection = (String) JOptionPane.showInputDialog(
             null,                            // parent component
             prompt,     					 		// prompt
@@ -30,19 +36,24 @@ public class BoxIO extends AbstractDialogIO
             null,                            // icon displayed
             null,                         // choices for the Combo box
             null);                     // initial selection
-		int number;
+
 		try
 		{
 		number = Integer.parseInt(selection);
 		}
 		catch(NumberFormatException e)
 		{
+			if (selection == null) //returns 0 if cancel/x is clicked
+				return 0;
+			outputString("Please enter a valid integer."); //+ number + selection);
 			return readInt(prompt);
 		}
 		return number;
 	}
 
-	@Override
+	/** 
+	 * Reads output to a diaogue box
+	 */
 	public void outputString(String outString) 
 	{
 		JOptionPane.showMessageDialog(null, outString);
